@@ -1,35 +1,35 @@
-Data Structures
-This section provides data struct examples.
+Структури даних
+У цій секції наведено приклади структур даних.
 
-* Hash Map
+* Хеш мапа (Hash Map)
 
-- [[https://www.ardanlabs.com/training/individual-on-demand/ultimate-go-bundle/][Watch The Video]]
-- Need Financial Assistance, Use Our [[https://www.ardanlabs.com/scholarship/][Scholarship Form]]
+- [[https://www.ardanlabs.com/training/individual-on-demand/ultimate-go-bundle/][Дивитися відео]]
+- Якщо потрібна фінансова допомога, то використовуйте [[https://www.ardanlabs.com/scholarship/][формy для отримання стипендії]]
 
-This sample program implements a basic hash table.
+Ця програма демонструє просту хеш таблицю.
 
-- hashKey(key) returns a number between 0 to len(buckets)-1
+- hashKey(key) повертає число між 0 та len(buckets)-1
 
-- We use a slice of entries as a bucket to handles cases where two or more keys
-  are hashed to the same bucket
+- Ми використовуємо зріз елементів як кошик (bucket), щоб обробляти випадки, коли один або більше ключів
+  хешовані у той самий кошик.
 
-- See more at [[https://en.wikipedia.org/wiki/Hash_table][https://en.wikipedia.org/wiki/Hash_table]]
+- Детальніше читайте тут [[https://en.wikipedia.org/wiki/Hash_table][https://en.wikipedia.org/wiki/Hash_table]]
 
-*Diagram*
+*Діаграма*
 
-    With a hash map, data is indexed by bucket and then position
-    inside the bucket.
+    У хеш мапі дані індексовані по кошику та
+    позиції всереднині кошика.
 
     hashKey(key) ──────────────┐
                                │
                                ▽
      ┌────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
-     │    │     │     │     │     │     │     │     │  ◁── bucket
+     │    │     │     │     │     │     │     │     │  ◁── кошик
      └────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘
              │                 │
              ▽                 ▽
        ┌─────────────┐   ┌─────────────┐
-       │ key │ value │   │ key │ value │  ◁── entry
+       │ key │ value │   │ key │ value │  ◁── елемент
        ├─────────────┤   ├─────────────┤
        │ key │ value │   │ key │ value │
        ├─────────────┤   └─────────────┘
@@ -42,16 +42,16 @@ This sample program implements a basic hash table.
 
 .play algorithms/data/hash_map.go
 
-* Linked List
+* Звʼязний список (Linked list)
 
-This sample program implements a basic double linked list.
+Ця програма демонструє базовий звʼязний список.
 
-- See more at [[https://en.wikipedia.org/wiki/Linked_list][https://en.wikipedia.org/wiki/Linked_list]]
+- Детальніше дивіться тут [[https://en.wikipedia.org/wiki/Linked_list][https://en.wikipedia.org/wiki/Linked_list]]
 
-*Diagram*
+*Діаграма*
 
-    With a linked list, values are tied together in different
-    order through the use of pointers.
+    У звʼязному списку значення повʼязані між собою у довільному порядку
+    через використання вказівників.
 
     ┌─────┐     ┌─────┐     ┌─────┐     ┌─────┐     ┌─────┐
     │ Val │ ◁─▷ │ Val │ ◁─▷ │ Val │ ◁─▷ │ Val │ ◁─▷ │ Val │
@@ -67,15 +67,15 @@ This sample program implements a basic double linked list.
 
 .play algorithms/data/list.go
 
-* Queue
+* Черга (Queue)
 
-This sample program implements a basic circular queue.
+Ця програма демонструє просту кільцеву чергу.
 
-- See more at [[https://en.wikipedia.org/wiki/Queue_(abstract_data_type)][https://en.wikipedia.org/wiki/Queue_(abstract_data_type)]]
+- Детальніше дивіться тут [[https://en.wikipedia.org/wiki/Queue_(abstract_data_type)][https://en.wikipedia.org/wiki/Queue_(abstract_data_type)]]
 
-*Diagram*
+*Діаграма*
 
-    With a queue, the first value in is the first value out.
+    Значення, яке потрапляє в чергу першим, першим з неї і виймається.
 
                ┌──────────────────────────────────────────┐
     ┌─────┐    │ ┌─────┐    ┌─────┐    ┌─────┐    ┌─────┐ │    ┌─────┐
@@ -85,15 +85,15 @@ This sample program implements a basic circular queue.
 
 .play algorithms/data/queue_circular.go
 
-* Stack
+* Стек (Stack)
 
-This sample program implements a basic stack.
+Ця програма демонструє простий стек.
 
-- See more at [[https://en.wikipedia.org/wiki/Stack_(abstract_data_type)][https://en.wikipedia.org/wiki/Stack_(abstract_data_type)]]
+- Детальніше дивіться тут [[https://en.wikipedia.org/wiki/Stack_(abstract_data_type)][https://en.wikipedia.org/wiki/Stack_(abstract_data_type)]]
 
-*Diagram*
+*Діаграма*
 
-    With a stack, the first value in is the last value out.
+    Значення, яке потрапляє в стек першим, виймається з нього останнім.
 
            ┌─────┐
            │ V05 │
@@ -114,25 +114,25 @@ This sample program implements a basic stack.
 
 .play algorithms/data/stack.go
 
-* Binary Tree
+* Двійкове дерево (Binary tree)
 
-This sample program implements a basic binary tree.
+Ця програма демонструє просте двійкове дерево.
 
-- See more at [[https://en.wikipedia.org/wiki/Binary_tree][https://en.wikipedia.org/wiki/Binary_tree]]
+- Детальніше дивіться тут [[https://en.wikipedia.org/wiki/Binary_tree][https://en.wikipedia.org/wiki/Binary_tree]]
 
-*Diagram*
+*Діаграма*
 
-    With a binary tree, data is indexed either to the left or right
-    side of the tree. With the adding of each node, the tree is
-    balanced.
+    У двійковому дереві дані індексуються ліворуч або праворуч
+    дерева. З додаванням кожного вузла дерево залишається
+    збалансованим.
 
-      0     1     2     3     4     5     6    ◁─ Insert Order
+      0     1     2     3     4     5     6    ◁─ Порядок додавання
     ┌────┐┌────┐┌────┐┌────┐┌────┐┌────┐┌────┐
     │ 65 ││ 45 ││ 35 ││ 75 ││ 85 ││ 78 ││ 95 │
     └────┘└────┘└────┘└────┘└────┘└────┘└────┘
 
                    ┌────┐
-                   │ 75 │                      ◁─ Final Tree
+                   │ 75 │                      ◁─ Фінальне дерево
                    └────┘
                  /        \
            ┌────┐          ┌────┐
