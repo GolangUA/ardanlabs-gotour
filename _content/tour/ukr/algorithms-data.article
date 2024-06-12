@@ -4,7 +4,7 @@
 * Хеш мапа (Hash Map)
 
 - [[https://www.ardanlabs.com/training/individual-on-demand/ultimate-go-bundle/][Дивитися відео]]
-- Якщо потрібна фінансова допомога, то використовуй [[https://www.ardanlabs.com/scholarship/][формy для отримання стипендії]]
+- Якщо потрібна фінансова допомога, то використовуйте [[https://www.ardanlabs.com/scholarship/][формy для отримання стипендії]]
 
 Ця програма демонструє просту хеш таблицю.
 
@@ -13,7 +13,7 @@
 - Ми використовуємо зріз елементів як кошик (bucket), щоб обробляти випадки, коли один або більше ключів
   хешовані у той самий кошик.
 
-- Детальніше читай тут [[https://en.wikipedia.org/wiki/Hash_table][https://en.wikipedia.org/wiki/Hash_table]]
+- Детальніше читайте тут [[https://en.wikipedia.org/wiki/Hash_table][https://en.wikipedia.org/wiki/Hash_table]]
 
 *Діаграма*
 
@@ -46,7 +46,7 @@
 
 Ця програма демонструє базовий звʼязний список.
 
-- Детальніше дивись тут [[https://en.wikipedia.org/wiki/Linked_list][https://en.wikipedia.org/wiki/Linked_list]]
+- Детальніше дивіться тут [[https://en.wikipedia.org/wiki/Linked_list][https://en.wikipedia.org/wiki/Linked_list]]
 
 *Діаграма*
 
@@ -71,7 +71,7 @@
 
 Ця програма демонструє просту кільцеву чергу.
 
-- Детальніше дивись тут [[https://en.wikipedia.org/wiki/Queue_(abstract_data_type)][https://en.wikipedia.org/wiki/Queue_(abstract_data_type)]]
+- Детальніше дивіться тут [[https://en.wikipedia.org/wiki/Queue_(abstract_data_type)][https://en.wikipedia.org/wiki/Queue_(abstract_data_type)]]
 
 *Діаграма*
 
@@ -89,7 +89,7 @@
 
 Ця програма демонструє простий стек.
 
-- Детальніше дивись тут [[https://en.wikipedia.org/wiki/Stack_(abstract_data_type)][https://en.wikipedia.org/wiki/Stack_(abstract_data_type)]]
+- Детальніше дивіться тут [[https://en.wikipedia.org/wiki/Stack_(abstract_data_type)][https://en.wikipedia.org/wiki/Stack_(abstract_data_type)]]
 
 *Діаграма*
 
@@ -118,7 +118,7 @@
 
 Ця програма демонструє просте двійкове дерево.
 
-- Детальніше дивись тут [[https://en.wikipedia.org/wiki/Binary_tree][https://en.wikipedia.org/wiki/Binary_tree]]
+- Детальніше дивіться тут [[https://en.wikipedia.org/wiki/Binary_tree][https://en.wikipedia.org/wiki/Binary_tree]]
 
 *Діаграма*
 
