@@ -1,28 +1,27 @@
-Mocking
-Since the compiler can perform static code analysis to determine if a concrete value implements an interface, the developer declaring the concrete type doesn’t need to provide interfaces as well.
+Імітування (Mocking)
+Оскільки компілятор має змогу виконувати стватичний аналіз коду, щоб визначити чи конкретне значення імплементує інтерфейс, розробник, що оголошує конкретний тип, також може не надавати інтерфейси.  
 
-* Mocking
+* Імітування (Mocking)
 
-- [[https://www.ardanlabs.com/training/individual-on-demand/ultimate-go-bundle/][Watch The Video]]
-- Need Financial Assistance, Use Our [[https://www.ardanlabs.com/scholarship/][Scholarship Form]]
+- [[https://www.ardanlabs.com/training/individual-on-demand/ultimate-go-bundle/][Дивитись відео]]
+- Якщо потрібна фінансова допомога, то використовуйте [[https://www.ardanlabs.com/scholarship/][форму для отримання стипендії]]
 
-The best way to take advantage of embedding is through the compositional design
-pattern. The idea is to compose larger types from smaller types and focus on the
-composition of behavior.
+Найкрашій спосіб скористатися перевагами встраювання(embedding) 
+полягає у використанні композиційного шаблону проєктування. Ідея полягає у тому щоб складати більш великі типи з меньших типів
+та фокусуватися на композиції поведінки.
 
-** Code Review
+** Перегляд коду
 
-- *Example* *1:* Mocking
+- *Приклад* *1:* Імітування
 
 .play composition/mocking/example1.go
 
-** Interface Ownership
+** Володіння Інтерфейсом(Interface Ownership)
 
-One thing that is different about Go from other languages is the idea of convention
-over configuration. This really shows itself with how Go handles interface compliance.
-Because the compiler can perform static code analysis to determine if a concrete value
-implements an interface, the developer declaring the concrete type doesn’t need to
-provide interfaces as well.
+Одною з речей, які відрізняють Go від інших мов програмування,
+є ідея договору понад конфігурацією. Ця особливо чітко проявляється у тому, як Go обробляє відповідність до інтерфейсу.
+Через те що компілятор має змогу провести статичний аналіз коду, щоб визначити чи імплементує конретне значення інтерфейс,
+розробник, що оголошує конкретний тип, також не має надавати інтерфейс.
 
     package pubsub
     
