@@ -19,8 +19,9 @@
 ** Володіння Інтерфейсом(Interface Ownership)
 
 Одною з речей, які відрізняють Go від інших мов програмування,
-є ідея договору понад конфігурацією. Ця особливо чітко проявляється у тому, як Go обробляє відповідність до інтерфейсу.
-Через те що компілятор має змогу провести статичний аналіз коду, щоб визначити чи імплементує конретне значення інтерфейс,
+є ідея договору понад конфігурацією. Ця особливо чітко проявляється у тому, 
+як Go обробляє відповідність до інтерфейсу. Через те, що компілятор має змогу провести статичний аналіз коду,
+щоб визначити чи конретне значення імплементує інтерфейс,
 розробник, що оголошує конкретний тип, також не має надавати інтерфейс.
 
     package pubsub
@@ -36,22 +37,22 @@
     }
 
     func (ps *PubSub) Publish(key string, v interface{}) error {
-        // PRETEND THERE IS A SPECIFIC IMPLEMENTATION.
+        // УЯВІМО, ЩО ТУТ Є ПЕВНА ІМПЛЕМЕНТАЦІЯ.
         return nil
     }
 
     func (ps *PubSub) Subscribe(key string) error {
-        // PRETEND THERE IS A SPECIFIC IMPLEMENTATION.
+        // УЯВІМО, ЩО ТУТ Є ПЕВНА ІМПЛЕМЕНТАЦІЯ.
         return nil
     }
 
-You've just implemented a new API that provides a concrete implementation for publish
-and subscribe. There are no interfaces being provided because this API does not
-need one. This is a single concrete implementation.
+Ви щойно імплементували новий API, який надає конкретну імплементацію для публікації(publish)
+та підписки(subscribe). Тут не було надано жодного інтерфейсу, оскільки цей API їх не потребує.
+Це єдина конретна імплементація.
 
-What if the application developer wanting to use this new API needs an interface
-because they have the need to mock this implementation during tests? In Go, that
-developer can declare the interface and the compiler can identify the compliance.
+Що як розробник програми, що бажає використати цей новий API, потребує інтерфейс,
+тому що в нього є потреба імітувати імплементацію під час тестів? В Go, цей розробник
+може оголосити інтерфейс, а компілятор ідентифікує відповідність до цього інтерфейсу.
 
     package main
 
@@ -63,20 +64,20 @@ developer can declare the interface and the compiler can identify the compliance
     type mock struct{}
 
     func (m *mock) Publish(key string, v interface{}) error {
-        // ADD MY MOCK FOR THE PUBLISH CALL.
+        // ДОДАЙТЕ ІМІТАЦІЮ ДЛЯ ВИКЛИКУ PUBLISH.
         return nil
     }
 
     func (m *mock) Subscribe(key string) error {
-        // ADD MY MOCK FOR THE SUBSCRIBE CALL.
+        // ДОДАЙТЕ ІМІТАЦІЮ ДЛЯ ВИКЛИКУ SUBSCRIBE.
         return nil
     }
 
-This code in the main package is declaring an interface. This interface represents
-the API that the application is using from the pubsub package. The developer has
-implemented their own pubsub implementation for testing. The key here is that this
-application developer doesn’t use any concrete implementation directly, but decouples
-themselves through their own interface.
+Цей код в пакунку main декларує інтерфейс. Цей інтерфейс представляє API,
+який використовує програму з пакунку pubsub. Розробник створив
+свою власну імплементацію pubsub для тестування. Ключовий момент полягає в тому,
+що розробник програми не використовує жодної конкретної імплементації напряму, 
+відокремлюючи себе через свої ж інтерфейси.
 
     func main() {
         pubs := []publisher{
@@ -90,7 +91,7 @@ themselves through their own interface.
         }
     }
 
-To provide an example, the main function constructs a collection that is initialized
-with the pubsub implementation and the mock implementation. The publisher interface
-allows this. Then a for range loop is implemented to show how the application code
-is abstracted from any concrete implementation.
+Для прикладу, функція main створює колекцію, яка ініційована
+імплементацією pubsub та імітацією. Інтерфейс publisher це дозволяє.
+Потім імплементовано цикл for range, щоб показати як код програми
+абстраговано від будь якої конкретної імплементації.
