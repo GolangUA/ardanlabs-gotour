@@ -1,54 +1,54 @@
-Goroutines
-Goroutines are functions that are created and scheduled to be run independently by the Go scheduler.
+Горутини
+Горутини це функції, які створюються та управляються планувальником Go (Go scheduler), щоб виконуватися незалежно.
 
-* Goroutines
+* Горутини (Goroutines)
 
-- [[https://www.ardanlabs.com/training/individual-on-demand/ultimate-go-bundle/][Watch The Video]]
-- Need Financial Assistance, Use Our [[https://www.ardanlabs.com/scholarship/][Scholarship Form]]
+- [[https://www.ardanlabs.com/training/individual-on-demand/ultimate-go-bundle/][Дивитись відео]]
+- Якщо потрібна фінансова допомога, то використовуйте [[https://www.ardanlabs.com/scholarship/][формy для отримання стипендії]]
 
-Goroutines are functions that are created and scheduled to be run independently
-by the Go scheduler. The Go scheduler is responsible for the management and
-execution of goroutines.
+Горутини це функції, які створюються та управляються планувальником Go,
+щоб виконуватися незалежно. Планувальник Go відповідальний за управління
+та виконання горутин.
 
-** Code Review
+** Перегляд коду
 
-- *Example* *1:* Goroutines and Concurrency
-- *Example* *2:* Goroutine context switching
-- *Example* *3:* Goroutines and Parallelism
+- *Приклад* *1:* Горутини та конкурентність
+- *Приклад* *2:* Горутини та перемикання контексту
+- *Приклад* *3:* Горутини та паралелізм
 
 .play goroutines/example1.go
 .play goroutines/example2.go
 .play goroutines/example3.go
 
-** Scheduler Semantics
+** Семантика планувальника
 
-When a Go program starts up, the Go runtime asks the machine (virtual or physical)
-how many operating system threads can run in parallel. This is based on the number
-of cores that are available to the program. For each thread that can be run in parallel,
-the runtime creates an operating system thread (M) and attaches that to a data structure
-that represents a logical processor (P) inside the program. This P and M represent the
-compute power or execution context for running the Go program.
+Коли Go програма починає виконання, планувальник Go питає у машини (віртуальної або фізичної)
+скільки потоків операційної системи може бути виконано паралельно. Це засновано на кількості
+ядер, які доступні програмі. Для кожного потока, який може бути виконаний у паралелі, cереда
+виконання створює потік операційної системи (М) і прикриплює його до структури даних, яка
+представляє логічний процесор (Р) усередині програми. Ці М та P представляють обчислювальну
+здатність або контекст виконання для виконання програми Go.
 
-Also, an initial Goroutine (G) is created to manage the execution of instructions
-on a selected M/P. Just like an M manages the execution of instructions on the hardware,
-a G manages the execution of instructions on the M. This creates a new layer of
-abstraction above the operating system, but it moves execution control to the
-application level.
+Також, головна горутина (G) створюється, щоб управляти виконанням інструкцій
+обраних M/P. Так само як M управляє виконанням інструкцій заліза, 
+G управляє виконанням інструкцій M. Це створює новий шар абстракції вище операційної
+системи, проте передає контроль виконання на рівень застосунку.
 
 .image /tour/eng/static/img/gor1.png
 
-Since the Go scheduler sits on top of the operating system scheduler, it’s important
-to have some semantic understanding of the operating system scheduler and the constraints
-it applies to the Go scheduler and applications.
+Враховуючи, що планувальник Go знаходиться вище за планувальник операційної системи,
+важливо мати деяке розуміння того, як працює планувальник операційної системи і обмеження,
+які він накладає на планувальник Go і застосунки.
 
-The operating system scheduler has the job of creating the illusions that multiple
-pieces of work are being executed at the same time. Even when this is physically
-impossible. This requires some tradeoffs in the design of the scheduler. Before I
-go any further, it’s important to define some words.
+Планувальник операційної системи виконує роботу створення іллюзії, що декілька
+частин роботи можуть бути виконані одночасно. Навіть якщо це фізично неможливо.
+Це вимагає деяких компромісів у дизайні планувальника. Перед тим, як заглибоюватися
+далі, важливо визначити значення деяких слів.
 
-*Work:* A set of instructions to be executed for a running application. This is
-accomplished by threads and an application can have 1 to many threads.
+*Робота:* Набір інструкцій, які необхідно виконати для запуску застосунку. Це
+виконується потоками, яких додаток може мати від одного і більше.
 
+*Потік*: 
 *Thread:* A path of execution that is scheduled and performed. Threads are responsible
 for the execution of instructions on the hardware.
 
