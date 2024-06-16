@@ -30,7 +30,7 @@
 здатність або контекст виконання для виконання програми Go.
 
 Також, головна горутина (G) створюється, щоб управляти виконанням інструкцій
-обраних M/P. Так само як M управляє виконанням інструкцій заліза, 
+обраних M/P. Так само, як M управляє виконанням інструкцій заліза, 
 G управляє виконанням інструкцій M. Це створює новий шар абстракції вище операційної
 системи, проте передає контроль виконання на рівень застосунку.
 
@@ -48,69 +48,69 @@ G управляє виконанням інструкцій M. Це створ�
 *Робота:* Набір інструкцій, які необхідно виконати для запуску застосунку. Це
 виконується потоками, яких додаток може мати від одного і більше.
 
-*Потік*: 
-*Thread:* A path of execution that is scheduled and performed. Threads are responsible
-for the execution of instructions on the hardware.
+*Потік:* Шлях виконання, який планується та виконується. Потоки відповідальні за виконання
+інструкцій заліза.
 
-*Thread* *States:* A thread can be in one of three states: Running, Runnable, or
-Waiting. Running means the thread is executing its assigned instructions on the
-hardware by having a G placed on the M. Runnable means the thread wants time on
-the hardware to execute its assigned instructions and is sitting in a run queue.
-Waiting means the thread is waiting for something before it can resume its work.
-Waiting threads are not a concern of the scheduler.
+*Стани* *потока:* Поток може бути в одному з трьох станів: Виконується, запущений
+або в очікуванні. Виконується значить, що потік виконує призначені інструкції на
+залізі, маючи G розташовану зверху M. Запущений значить, що потік потребує часу, щоб
+виконати призначенні інструкції на залізі, тому сидить в очікуванні. В очікуванні
+значить, що потік чекає на щось, перед тим як продовжити свою роботу. В очікуванні
+значить що потік не важливий для планувальника.
 
-*Concurrency:* This means undefined out of order execution. In other words, given
-a set of instructions that would be executed in the order provided, they are executed
-in a different undefined order, but all executed. The key is, the result of executing
-the full set of instructions in any undefined order produces the same result. You will
-say work can be done concurrently when the order the work is executed in doesn’t matter,
-as long as all the work is completed.
+*Конкурентність:* Це значить невизначенність порядку виконання. Іншими словами,
+якщо є набір інструкцій, який може бути виконаний у певному порядку, він буде виконаний
+в іншому невизначеному порядку, проте виконаний повністю. Сенс у тому, що результат
+виконання повного набору інструкцій у будь якому невизначеному порядку приводить до того
+самого результату. Можна казати, що робота може бути зроблена конкурентно, коли порядок
+виконання роботи неважливий, до тих пір, доки вся робота виконана.
 
-*Parallelism:* This means doing a lot of things at once. For this to be an option,
-you need the ability to physically execute two or more operating system threads at
-the same time on the hardware.
+*Паралелізм:* Це значить робити багато речей одночасно. Щоб це було можливо, треба
+мати можливіть виконувати два або більше потока операційної системи одночасно
+на залізі.
 
-*CPU* *Bound* *Work:* This is work that does not cause the thread to naturally move
-into a waiting state. Calculating fibonacci numbers would be considered CPU-Bound work. 
+*Робота* *процесора:* Це та робота, яка не примушує потік природньо переходити
+у стан очікування. Наприклад, обчислення числа фібоначчі можна вважати роботою процесора.
 
-*I/O* *Bound* *Work:* This is work that does cause the thread to naturally move into
-a waiting state. Fetching data from different URLs would be considered I/O-Bound work.
+*Робота* *вводу/виводу:* Це та робота, яка примушує потік природньо переходити
+у стан очікування. Наприклад, отримання даних з іншої адреси може бути 
+розцінено як робота вводу/виводу.
 
-*Synchronization:* When two or more Goroutines will need to access the same memory
-location potentially at the same time, they need to be synchronized and take turns.
-If this synchronization doesn’t take place, and at least one Goroutine is performing
-a write, you can end up with a data race. Data races are a cause of data corruption
-bugs that can be difficult to find.
+*Синхронізація:* Коли дві або більше горутини потребують доступ до тієї самої локації
+памʼяті в один і той самий час, потрібно їх синхронізувати та чергувати.
+Якщо синхронізація не відбувається і хоча б одна з горутин пише, то це приводить до
+гонки даних (data races). Гонки даних є причиною багатьох багів з пошкодженням даних,
+які важко знайти.
 
-*Orchestration:* When two or more Goroutines need to signal each other, with or
-without data, orchestration is the mechanic required. If orchestration does not
-take place, guarantees about concurrent work being performed and completed will
-be missed. This can cause all sorts of data corruption bugs.
+*Оркестрування:* Коли двом або більше горутинам потрібно просигналізувати одній одній
+з або без даних, необхідно мати механіку оркестрації. Якщо немає оркестрації, то
+це гарантія, що конкурентна робота, яка виконуються і завершується, буде втрачена.
+Це може стати причиною всіляких багів з пошкодженням даних.
 
-There are lots of little details related to the scheduling semantics, so to learn
-more read the three posts in chapter 14 titled, Scheduling In Go.
+Є багато дрібних деталей, повʼязаних з семантикою планувальника, тому щоб дізнатися
+більше читайте три пости у главі 14, яка зветься Планування у Go.
 
-** Concurrency Basics
+** Основа конкурентності
 
-Starting with a basic concurrency problem that requires orchestration.
+Почнемо з простої проблеми конкурентності, яка вимагає оркестрації.
 
     func init() {
         runtime.GOMAXPROCS(1)
     }
 
-The call to GOMAXPROCS is being used to run the Go program as a single threaded
-Go program. This program will be single threaded and have a single P/M to execute
-all Goroutines. The function is capitalized because it’ s also an environment variable.
-Though this function call will overwrite the variable.
+Виклик до GOMAXPROCS робиться щоб виконати Go програму в одному потоці.
+Ця програма буде однопоточна і матиме єдині P/M для виконання всіх горутин.
+Функція пишеться великими літерами, тому що це також є змінна оточення.
+Все ж таки виклик функції перепише змінну.
 
     g := runtime.GOMAXPROCS(0)
 
-This function is an important function when you set CPU quotas to a container
-configuration. When passing 0, the number of threads the Go program will be using
-is reported. You must make sure that number matches the number of operating system
-threads you have available in my containerized environment. If the numbers are not
-the same, the Go program won’t run as well as it otherwise could. You might want
-to use the environment variable or this call to match things up.
+Ця функція дуже важлива, коли ви налаштували долю процесора у конфігурації контейнера.
+Коли передається 0, то число потоків які програма Go використовуватиме звітується.
+Ви повинні впевнитися в тому, що це число співпадає з числом операційних потоків, доступних
+вам у контейнерізованому середовищі. Якщо числа не співпадуть, то програма Go
+не виконається так вдало, як вона могла би. Ви можете використовувати як змінну оточення, 
+так і виклик функції, щоб усі співставити.
 
     func main() {
         var wg sync.WaitGroup
@@ -132,26 +132,26 @@ to use the environment variable or this call to match things up.
         fmt.Println("\nTerminating Program")
     }
 
-This program has to solve an orchestration problem. The main Goroutine can’t allow
-the main function to return until there is a guarantee the two Goroutines being
-created finish their work first. A WaitGroup is a perfect tool for orchestration
-problems that don’t require data to be passed between Goroutines. The signaling
-here is performed through an API that allows a Goroutine to wait for other Goroutines
-to signal they’re done.
+Ця програма вирішує проблему оркестрації. Головна горутина не може дозволити функції
+main повернутися, доки не буде гарантії, що дві створені горутини завершать своє
+виконання спочатку. WaitGroup це чудовий інструмент для вирішення проблем оркестрації,
+які не потребують передавання даних між горутинами. Сигналізування тут відбувається за 
+допомогою АРІ, яке дозволяє горутині почекати, доки інші горутини просигналізують, що
+вони закінчили виконання.
 
-In this code, a WaitGroup is constructed to its zero value state and then immediately
-the Add method is called to set the WaitGroup to 2, which will match the number of
-Goroutines to be created. When you know how many Goroutines upfront that will be
-created, you should call Add once with that number. When you don’t know (like in
-a streaming service) then calling Add(1) is acceptable.
+У цьому коді, ми створюємо WaitGroup з нульовим значенням, і потім одразу викликаємо
+метод Add, щоб встановити значення 2 у WaitGroup, що буде співпадати з числом горутин,
+які ми створюємо. Коли ви знаєте, скільки горутин буде створено, завчасно, ви повинні
+викликати метод Add один раз із цим числом. Коли ви не знаєте (як наприклад у стрімінговому
+сервісі), тоді виклик Add(1) допустимий.
 
-At the end of main is the call to Wait. Wait holds the main Goroutine from causing
-the function to return. When the main function returns, the Go program is shut
-down with extreme prejudice. This is why managing the orchestration with the proper
-guarantees is important. The Wait call will block until the WaitGroup is set back
-to 0.
+У кінці функції main робиться виклик Wait. Wait стримує горутину main від
+повернення. Коли функція main повертається, то програма Go припиняє роботу з 
+крайнім упередженням. Саме тому управління оркестрацієї з правильними гарантіями
+важливо. Виклик Wait блокуватиме, доки WaitGroup не встановить своє значення назад
+до 0.
 
-In the middle of the program, you have the creation of the two Goroutines.
+У середині програми створюються дві горутини.
 
     func main() {
         . . .
@@ -169,13 +169,13 @@ In the middle of the program, you have the creation of the two Goroutines.
         . . .
     }
 
-Literal functions are declared and executed with the use of the keyword go. At
-this point, you are telling the Go scheduler to execute these functions concurrently.
-To execute them in an undefined order. Inside the implementation of each Goroutine
-is the call to Done. That call is what decrements the WaitGroup by 1. Once both
-calls to Done are made, the WaitGroup will change from 2 to 0, and then the main
-Goroutine will be allowed to be unblocked from the call to Wait, terminating the
-program.
+Літеральні функції оголошуються і виконуються з використанням ключового слова go.
+У цьому моменті ви кажете планувальнику Go виконати ці функції конкурентно. 
+Виконати їх у невизначеному порядку. Усередині реалізації кожної горутини є
+виклик до функції Done. Цей виклик декрементує значення WaitGroup на 1. Коли обидва
+виклики до Done зроблені, значення WaitGroup зміниться з 2 до 0 і потім
+головній горутині буде дозволено розблокуватися від виклику Wait,
+тим самим програма заввершиться.
 
     func main() {
         var wg sync.WaitGroup
@@ -189,44 +189,44 @@ program.
         . . .
     }
 
-An important part of this orchestration pattern is keeping the Add and Done calls
-in the same line of sight. Try not to pass the WaitGroup as a function parameter
-where the calls get lost. This will help to reduce bugs.
+Важливою частиною цього паттерну оркестрації є тримання викликів Add і Done
+в одному полі зору. Намагайтеся не передавати WaitGroup як параметр у функцію,
+де виклик може загубитися. Це допоможе зменшити кількість багів.
 
-    Output:
+    Вивід:
 
     Start Goroutines
     Waiting To Finish
     A B C D E F G H I J K L M N O P Q R S T U V W X Y Z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g h i j k l m n o p q r s t u v w x y z
     Terminating Program
 
-When you build and run this program, you see how this program runs concurrently.
-The second Goroutine created was scheduled first. It got to finish its work and
-then the other Goroutine ran. Both ran to completion before the program terminated.
-The next time you run this program, there is no guarantee you see the same output.
-The only guarantee in this program is that the program won’t terminate until the
-two Goroutines are done.
+Коли ви зкомпілюєте та запустите цю програму, ви побачити як вона виконується конкурентно.
+Друга створена горутина була запланована до виконання першою. Вона повинна була завершити
+свою роботу, і тільки потім друга горутина почала виконання. Обидві закінчили своє виконання
+перед тим як програма завершилася. Наступний раз, коли ви запустите цю програму, не буде
+гарантії, що ви отримаєте такий самий результат. Єдина гарантія - це те, програма не завершить
+своє виконання, до того як обидві горутини закінчать роботу.
 
-Even if you run this program 100 times and see the same output, there is no guarantee
-it will happen again. It may be highly probable, but not guaranteed. Especially not
-guaranteed across different versions, operating systems and architectures.
+Навіть якщо ви запустите цю програму 100 разів і побачите один і той самий результат,
+немає гарантій що це станеться знову. Це може бути дуже ймовірно, проте не гарантовано.
+Особливо не гарантовано у різних версіях, операційних системах та архітектурах.
 
     func main() {
         . . .
 
         fmt.Println("Waiting To Finish")
-        // wg.Wait()                           <-- CHANGED
+        // wg.Wait()                           <-- ЗМІНЕНО
 
         fmt.Println("\nTerminating Program")
     }
 
-If you comment the call to Wait what will happen when you run this program? Once
-again, there is no guarantee at all anymore with what will happen, but there are
-different possibilities.
+Якщо ви закоментуєте виклик Wait, то що станеться, коли ви запустите цю програму?
+Знову таки, немає гарантії більше, що станеться, проте є різні 
+ймовірності.
 
-The program could behave as before since calls to Println are system calls that
-do allow the scheduler to make a context switch. The program could execute just
-one of the two Goroutines or possibly terminate immediately.
+Програма може поводитися так само, як раніше, враховуючи, що виклики Println є
+системними викликами, які дозволяються планувальнику зробити перемикання контексту.
+Програма може виконати лише одну з двох горутин, або взагалі завершити виконнання одразу.
 
     func main() {
         var wg sync.WaitGroup
@@ -234,17 +234,17 @@ one of the two Goroutines or possibly terminate immediately.
 
         go func() {
             lowercase()
-            // wg.Done()               <-- CHANGED
+            // wg.Done()               <-- ЗМІНЕНО
         }()
 
         . . .
     }
 
-What happens if you forget to call Done in one of the Goroutines? In this case,
-the program would deadlock since the WaitGroup can’t get back down to 0. The Wait
-call will block forever.
+Що станеться, якщо ви забудете викликати Done в одній з горутин? У такому разі,
+програма замкнеться, враховуючи, що значення WaitGroup не може знову стати 0. 
+Виклик Wait блокуватиме вічно.
 
-    Output:
+    Вивід:
 
     Start Goroutines
     Waiting To Finish
@@ -260,14 +260,14 @@ call will block forever.
         concurrency/goroutines/example1/example1.go:42 +0x145
     exit status 2
 
-You can see how the Go Runtime identifies the program is deadlocked on line 42 where
-the call to Wait is happening. You shouldn’t get too excited about deadlock detection
-since every single Goroutine needs to be blocked with no way out. This shows why keeping
-the Add and Done call together is so important.
+Ви можете побачити, як середа виконання Go визначає, що програма взаємно блокується на рядку 42,
+де виклик Wait відбувається. Вам не варто занадто сильно захоплюватися розпізнаванням 
+взаємного блокування, оскільки кожну окрему горутину потрібно заблокувати без виходу.
+Це демонструє, чому викликати Add і Done разом так важливо.
 
     func main() {
         var wg sync.WaitGroup
-        wg.Add(1)              <-- CHANGED, Number Too Small
+        wg.Add(1)              <-- ЗМІНЕНО, число занадто мале
 
         go func() {
             lowercase()
@@ -282,16 +282,16 @@ the Add and Done call together is so important.
         . . .
     }
 
-What happens if you don’t give the WaitGroup the correct number of Goroutines to
-wait on? If the number is too large, you will have another deadlock. If the number
-is too small, there are no guarantees that the work is done before the program moves
-on. The output of the program is undefined.
+Що станеться, якщо ви не надасте WaitGroup коректну кількість горутин, на які 
+треба зачекати? Якщо число занадто велике, ви отримаєте взаємне блокування. Якщо
+число занадто мале, то немає гарантій що вся робота закінчиться, до того, як програма
+піде далі. Вивід програми невизначений.
 
-** Preemptive Scheduler
+** Випереджуваний планувальник
 
-Even though the scheduler runs within the scope of the application, it’s important
-to see how the schedule is preemptive. This means you can’t predict when a context
-switch will take place and this will change every time you run the program.
+Навіть враховуючи, що планувальник виконується на рівні застосунку, важливо побачити,
+як планування випереджується. Це значить, що ви не можете передбачити, коли перемикнеться
+контекст і це змінюватиметься кожен рази, коли ви будете запускати програму.
 
     func main() {
         var wg sync.WaitGroup
@@ -313,9 +313,9 @@ switch will take place and this will change every time you run the program.
         fmt.Println("\nTerminating Program")
     }
 
-Using the same orchestration pattern as before, this program has each Goroutine doing
-a lot more work. Work that the scheduler won’t give a Goroutine enough time to finish
-completely in one time slice.
+Ми використовуємо той самий паттерн оркестрування як і раніше, проте в цій програмі кожна
+горутина робить набагато більше роботи. Роботу, на яку планувальник не виділить горутині 
+достатьно часу, щоб закінчити повністю за один проміжок часу.
 
     func printHashes(prefix string) {
         for i := 1; i <= 50000; i++ {
@@ -326,8 +326,8 @@ completely in one time slice.
         fmt.Println("Completed", prefix)
     }
 
-This function is performing a lot of I/O bound work that has the potential of
-being context switched.
+Ця функція виконує набагато більше роботи вводу/виводу, яка має потенціал
+перемикання контексту.
 
     $ ./example2 | cut -c1 | grep '[AB]' | uniq
     B
@@ -347,45 +347,45 @@ being context switched.
     B
     A  3 Context Switches
 
-As you can see, every time you run the program, there are a different number of
-context switches. This is a great thing because a scheduler shouldn’t be predictable.
-Concurrency needs to remain undefined and you must remember that when you use concurrency
-to solve my performance problems.
+Як ви можете побачити, кожен раз коли ви запускаєте програму, стається різна кількість
+перемикань контексту. Це чудово, тому що планувальник не повинен бути передбачуваним.
+Конкуретність повинна залишатися невизначеною, і ви маєте про це памʼятати, коли
+використовуєте її для вирішення проблем продуктивності.
 
     func init() {
         runtime.GOMAXPROCS(2)
     }
 
-What happens if you go back to the original program but change GOMAXPROCS so the program runs as a two threaded Go program?
+Що станеться, якщо ми повернимось до початкової програми, але змінимо GOMAXPROCS, щоб Go програма виконувалася як двопоточна?
 
-    Output:
+    Вивід:
 
     Start Goroutines
     Waiting To Finish
     A B C D E F G H I J K L M N O P Q R S T U V W X Y Z A B C D E F G H I J K L M N a b c d e f g h i j k l m n o O P Q R S T U V W X Y Z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z p q r s t u v w x y z a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g h i j k l m n o p q r s t u v w x y z
     Terminating Program
 
-What you see is that the concurrency of the program is now more fine grained. The output
-to the letter is undefined and out of order.
+Тепер можна побачити, що конкурентність програми більш детальна. Вивід літер невизначений
+та не невпорядкований.
 
-** Notes
+** Примітки
 
-- Goroutines are functions that are scheduled to run independently.
-- We must always maintain an account of running goroutines and shutdown cleanly.
-- Concurrency is not parallelism.
+- Горутини - це функції, які плануються виконуватись незалежно.
+- Ми повинні завжди мати на увазі кількість активних горутин, та завершувати роботу чисто.
+- Конкурентність - це не паралелізм.
 
-- Concurrency is about dealing with lots of things at once.
-- Parallelism is about doing lots of things at once.
+- Конкуретність - це мати справу з багаться речами водночас.
+- Паралелізм - це робити багато речей одночасно.
 
-"Parallelism is about physically doing two or more things at the same time. Concurrency is about undefined, out of order, execution." - William Kennedy
+"Паралелізм - це коли дві або більше речі фізично робляться одночасно. Конкурентність це невизначене, невпорядковане виконнання." - William Kennedy
 
-"By default, goroutines shouldn't outlive the function they were created from. this forces you into a extremely good design posture." - Peter Bourgon
+"За замовчуванням, горутини не повинні жити довше ніж функція, де вони були створені. Це задає гарний тон проєктування." - Peter Bourgon
 
-** Design Guidelines
+** Принципи проєктування
 
-- Learn about the [[https://github.com/ardanlabs/gotraining/blob/master/topics/go/#concurrent-software-design][design guidelines]] for concurrency.
+- Дізнайтеся більше про конкурентні [[https://github.com/ardanlabs/gotraining/blob/master/topics/go/#concurrent-software-design][паттерни проєктування]].
 
-** Extra Reading
+** Додаткові матеріали
 
 - [[https://www.ardanlabs.com/blog/2018/08/scheduling-in-go-part1.html][Scheduling In Go - Part I]] - William Kennedy    
 - [[https://www.ardanlabs.com/blog/2018/08/scheduling-in-go-part2.html][Scheduling In Go - Part II]] - William Kennedy    
@@ -402,18 +402,18 @@ to the letter is undefined and out of order.
 - [[https://www.quora.com/How-does-the-golang-scheduler-work/answer/Ian-Lance-Taylor][How does the golang scheduler work?]] - Ian Lance Taylor    
 - [[https://www.youtube.com/watch?v=YHRO5WQGh0k][The Scheduler Saga]] - Kavya Joshi    
 
-* Exercises
+* Вправи
 
-Use the template as a starting point to complete the exercises. A possible solution is provided.
+Використовуйте шаблон, як стартову точку для виконання вправ. Можливе рішення надано.
 
-** Exercise 1
+** Вправа 1
 
-*Part* *A* Create a program that declares two anonymous functions. One that counts
-down from 100 to 0 and one that counts up from 0 to 100. Display each number with
-an unique identifier for each goroutine. Then create goroutines from these functions
-and don't let main return until the goroutines complete.
+*Частина* *A* Cтворіть програму, яка визначає дві анонімних функції. Одну, яка рахуватме від 100 до 0,
+та іншу, яка рахуватиме від 0 до 100. Виведіть на екран кожне число з унікальним ідентифікатором
+для кожної горутини. Потім створіть горутини з цих функцій і не дайте функції main завершити виконання,
+до того, як горутині закінчать свою роботу.
 
-*Part* *B* Run the program in parallel.
+*Частина* *B* Виконайте програмy паралельно.
 
 .play goroutines/exercise1.go
 .play goroutines/answer1.go
