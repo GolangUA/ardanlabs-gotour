@@ -1,28 +1,28 @@
-Mocking
-Since the compiler can perform static code analysis to determine if a concrete value implements an interface, the developer declaring the concrete type doesn’t need to provide interfaces as well.
+Імітування (Mocking)
+Оскільки компілятор має змогу виконувати статичний аналіз коду, щоб визначити, чи конкретне значення реалізує інтерфейс, розробник, що оголошує конкретний тип, також може не надавати інтерфейси.
 
-* Mocking
+* Імітування
 
-- [[https://www.ardanlabs.com/training/individual-on-demand/ultimate-go-bundle/][Watch The Video]]
-- Need Financial Assistance, Use Our [[https://www.ardanlabs.com/scholarship/][Scholarship Form]]
+- [[https://www.ardanlabs.com/training/individual-on-demand/ultimate-go-bundle/][Дивитись відео]]
+- Якщо потрібна фінансова допомога, то використовуйте [[https://www.ardanlabs.com/scholarship/][форму для отримання стипендії]]
 
-The best way to take advantage of embedding is through the compositional design
-pattern. The idea is to compose larger types from smaller types and focus on the
-composition of behavior.
+Найкраший спосіб скористатися перевагами вбудовування (embedding) 
+полягає у використанні композиційного шаблону проєктування. Ідея полягає у тому, щоб складати більш великі типи з менших типів
+та фокусуватися на композиції поведінки.
 
-** Code Review
+** Перегляд коду
 
-- *Example* *1:* Mocking
+- *Приклад* *1:* Імітування
 
 .play composition/mocking/example1.go
 
-** Interface Ownership
+** Володіння Інтерфейсом (Interface Ownership)
 
-One thing that is different about Go from other languages is the idea of convention
-over configuration. This really shows itself with how Go handles interface compliance.
-Because the compiler can perform static code analysis to determine if a concrete value
-implements an interface, the developer declaring the concrete type doesn’t need to
-provide interfaces as well.
+Одною з речей, які відрізняють Go від інших мов програмування,
+є ідея контракту понад конфігурацією. Це особливо чітко проявляється у тому, 
+як Go обробляє відповідність до інтерфейсу. Компілятор має змогу самостійно провести статичний аналіз коду,
+та визначити який інтерфейс реалізує конкретне тип, тому
+розробник, що оголошує цей конкретний тип, має можливість не надавати жодних інтерфейсів.
 
     package pubsub
     
@@ -37,22 +37,22 @@ provide interfaces as well.
     }
 
     func (ps *PubSub) Publish(key string, v interface{}) error {
-        // PRETEND THERE IS A SPECIFIC IMPLEMENTATION.
+        // УЯВІМО, ЩО ТУТ Є ПЕВНА РЕАЛІЗАЦІЯ.
         return nil
     }
 
     func (ps *PubSub) Subscribe(key string) error {
-        // PRETEND THERE IS A SPECIFIC IMPLEMENTATION.
+        // УЯВІМО, ЩО ТУТ Є ПЕВНА РЕАЛІЗАЦІЯ.
         return nil
     }
 
-You've just implemented a new API that provides a concrete implementation for publish
-and subscribe. There are no interfaces being provided because this API does not
-need one. This is a single concrete implementation.
+Ви щойно створили новий API, який надає конкретну реалізацію для публікації (publish)
+та підписки (subscribe). Тут не було надано жодного інтерфейсу, оскільки цей API їх не потребує.
+Це єдина конкретна реалізація.
 
-What if the application developer wanting to use this new API needs an interface
-because they have the need to mock this implementation during tests? In Go, that
-developer can declare the interface and the compiler can identify the compliance.
+Що як розробник програми, що бажає використати цей новий API, потребує інтерфейс,
+тому що в нього є потреба імітувати реалізацію під час тестів? В Go, цей розробник
+може оголосити інтерфейс, а компілятор ідентифікує відповідність до цього інтерфейсу.
 
     package main
 
@@ -64,20 +64,20 @@ developer can declare the interface and the compiler can identify the compliance
     type mock struct{}
 
     func (m *mock) Publish(key string, v interface{}) error {
-        // ADD MY MOCK FOR THE PUBLISH CALL.
+        // ДОДАЙТЕ ІМІТАЦІЮ ДЛЯ ВИКЛИКУ PUBLISH.
         return nil
     }
 
     func (m *mock) Subscribe(key string) error {
-        // ADD MY MOCK FOR THE SUBSCRIBE CALL.
+        // ДОДАЙТЕ ІМІТАЦІЮ ДЛЯ ВИКЛИКУ SUBSCRIBE.
         return nil
     }
 
-This code in the main package is declaring an interface. This interface represents
-the API that the application is using from the pubsub package. The developer has
-implemented their own pubsub implementation for testing. The key here is that this
-application developer doesn’t use any concrete implementation directly, but decouples
-themselves through their own interface.
+Цей код в пакеті main декларує інтерфейс. Цей інтерфейс представляє API,
+який використовує програму з пакету pubsub. Розробник створив
+свою власну реалізацію pubsub для тестування. Ключовий момент полягає в тому,
+що розробник програми не використовує жодної конкретної реалізації напряму,
+відокремлюючи себе через свої ж інтерфейси.
 
     func main() {
         pubs := []publisher{
@@ -91,7 +91,7 @@ themselves through their own interface.
         }
     }
 
-To provide an example, the main function constructs a collection that is initialized
-with the pubsub implementation and the mock implementation. The publisher interface
-allows this. Then a for range loop is implemented to show how the application code
-is abstracted from any concrete implementation.
+Для прикладу, функція main створює колекцію, яка ініціюється
+реалізацією pubsub та імітацією. Інтерфейс publisher це дозволяє.
+Потім реалізовано цикл for range, щоб показати як код програми
+абстраговано від будь-якої конкретної реалізації.
