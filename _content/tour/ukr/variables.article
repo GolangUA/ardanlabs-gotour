@@ -1,61 +1,61 @@
-Variables
-Variables are at the heart of the language and provide the ability to read from and write to memory.
+Змінні (Variables)
+Змінні є основою мови програмування і забезпечують можливість читання з пам’яті та запису в пам’ять.
 
-* Variables
+* Змінні
 
-- [[https://www.ardanlabs.com/training/individual-on-demand/ultimate-go-bundle/][Watch The Video]]
-- Need Financial Assistance, Use Our [[https://www.ardanlabs.com/scholarship/][Scholarship Form]]
+- [[https://www.ardanlabs.com/training/individual-on-demand/ultimate-go-bundle/][Дивитись відео]]
+- Якщо потрібна фінансова допомога, то використовуйте [[https://www.ardanlabs.com/scholarship/][формy для отримання стипендії]]
 
-Variables are at the heart of the language and provide the ability to read from
-and write to memory. In Go, access to memory is type safe. This means the compiler
-takes type seriously and will not allow us to use variables outside the scope of
-how they are declared.
+Змінні є основою мови програмування і забезпечують можливість читання з
+пам’яті та запису в пам’ять. У Go, доступ до пам'яті є типобезпечним. Це означає, що компілятор
+серйозно ставиться до типів і не дозволить нам використовувати змінні за межами того як
+вони були оголошені.
 
-** Code Review
+** Перегляд коду
 
-- *Example* *1*: Sample program that shows how to declare variables.
+- *Example* *1*: Приклад програми, що показує як оголошувати змінні.
 
 .play variables/example1.go
 
-** Built-in Types
-Types provide integrity and readability by asking 2 questions:
+** Вбудовані типи
+Типи забезпечують цілісність і читабельність, задаючи 2 питання:
 
-- What is the amount of memory to allocate? (e.g. 1, 2, 4, 8 bytes)
-- What does that memory represent? (e.g. int, uint, bool,..)
+- Яку кількість пам'яті виділити? (напр. 1, 2, 4, 8 байтів)
+- Що відображає ця пам'ять? (напр. int, uint, bool,..)
 
-Types can be specific to a precision such as int32 or int64:
+Типи можуть мати специфічну точність, такі як int32 або int64:
 
-- uint8 represents an unsigned integer with 1 byte of allocation
-- int32 represents a signed integer with 4 bytes of allocation. When you declare a type
-using a non-precision based type (unit, int) the size of the value is based on the
-architecture being used to build the program:
+- uint8 представляє ціле число без знаку з 1 байтом виділення
+- int32 представляє ціле число зі знаком із 4 байтами виділення. Коли ви оголошуєте тип
+використовуючи чисельний тип без знаку (unit, int), розмір значання визначається на
+основі архітектури, що буде використана при компіляції програми:
 
-- 32 bit arch: int represents a signed int at 4 bytes of memory allocation
-- 64 bit arch: int represents a signed int at 8 bytes of memory allocation
+- 32-бітова архітектура: представляє ціле число зі знаком із 4 байтами виділення пам'яті
+- 64-бітова архітектура: представляє ціле число зі знаком із 8 байтами виділення пам'яті
 
-** Word Size
+** Розмір слова
 
-The word size represents the amount of memory allocation required to store integers
-and pointers for a given architecture. For example:
+Розмір слова представляє обсяг виділеної пам'яті, необхідний для зберігання цілих чисел
+і вказівники для заданої архітектури. Наприклад:
 
-- 32 bit arch: word size is 4 bytes of memory allocation
-- 64 bit arch: word size is 8 bytes of memory allocation
+- 32-бітова архітектура: розмір слова становить 4 байти виділення пам'яті
+- 64-бітова архітектура: розмір слова становить 8 байтів виділення пам'яті
 
-This is important because Go has internal data structures (maps, channels, slices,
-interfaces, and functions) that store integers and pointers. The size of these data
-structures will be based on the architecture being used to build the program.
+Це важливо, оскільки Go має внутрішні структури даних (мапи, канали, зрізи,
+інтерфейси, ти функції) які зберігають числа і вказівники. Розмір цих структур
+даних буде заснований на архітектурі, що буде використана при компіляції програми.
 
-In Go, the amount of memory allocated for a value of type int, a pointer, or a word
-will always be the same on the same architecture.
+У Go, обсяг пам'яті, виділеної для значення типу int, покажчика або слова
+завжди буде однаковим на одній і тій самій архітектурі.
 
-** Zero Value Concept
-Every single value you construct in Go is initialized at least to its zero value state
-unless you specify the initialization value at construction. The zero value is the setting
-of every bit in every byte to zero.
+** Концепція нульового значення
+Кожне значення, яке ви створюєте в Go, ініціалізується принаймні до стану нульового значення
+якщо ви не вкажете значення ініціалізації під час створення. Нульове значення визначається призначенням нуля 
+кожному біту в кожному байті.
 
-This is done for data integrity and it’s not free. It takes time to push electrons
-through the machine to reset those bits, but you should always take integrity over
-performance.
+Це робиться для збереження цілісності даних і не є безкоштовним. Доводиться витрачати машинний час,
+щоб скинути значення бітів до нуля, проте цілісність важливіша за
+продуктивність.
 
     Type               Zero Value
     Boolean            false
@@ -65,8 +65,8 @@ performance.
     String             "" (empty)
     Pointer            nil
 
-** Declare and Initialize
-The keyword var can be used to construct values to their zero value state for all types.
+** Оголошення та ініціалізація
+Ключове слово var можна використовувати для створення значень у їх нульовому стані для всіх типів.
 
     var a int
     var b string
@@ -78,47 +78,47 @@ The keyword var can be used to construct values to their zero value state for al
     fmt.Printf("var c float64 \t %T [%v]\n", c, c)
     fmt.Printf("var d bool \t %T [%v]\n\n", d, d)
 
-Output:
+Вивід:
 
     var a int    	int [0]
     var b string 	string []
     var c float64	float64 [0]
     var d bool   	bool [false]
 
-Strings use the UTF8 character set, but are really just a collection of bytes.
+Рядки (strings) використовують набір символів UTF8, але насправді це просто набір байтів.
 
-A string is a two-word internal data structure in Go:
+Рядок — це внутрішня структура даних із двох слів у Go:
 
-- The first word represents a pointer to a backing array of bytes
-- The second word represents the length or the number of bytes in the backing array
-- If the string is set to its zero value state, then the first word is nil and the
-second word is 0.
+- Перше слово представляє вказівник на базовий масив байтів
+- Друге слово представляє довжину або кількість байтів у базовому масиві
+- Якщо для рядка встановлено нульове значення, то перше слово буде мати значення nil, а
+друге слово 0.
 
-Using the short variable declaration operator, you can declare, construct, and
-initialize a value all at the same time.
+Використовуючи короткий оператор оголошення змінної, ви можете оголошувати, створювати та
+ініціалізувати значення одночасно.
 
     aa := 10       // int [10]
-    bb := "hello"  // string [hello]
+    bb := "привіт"  // string [hello]
     cc := 3.14159  // float64 [3.14159]
     dd := true     // bool [true]
 
     fmt.Printf("aa := 10 \t %T [%v]\n", aa, aa)
-    fmt.Printf("bb := \"hello\" \t %T [%v]\n", bb, bb)
+    fmt.Printf("bb := \"привіт\" \t %T [%v]\n", bb, bb)
     fmt.Printf("cc := 3.14159 \t %T [%v]\n", cc, cc)
     fmt.Printf("dd := true \t %T [%v]\n\n", dd, dd)
 
-Output:
+Вивід:
 
     aa := 10         int [10]
-    bb := "hello"    string [hello]
+    bb := "привіт"   string [привіт]
     cc := 3.14159    float64 [3.14159]
     dd := true       bool [true]
 
-** Conversion vs Casting
+** Приведення проти кастингу (Conversion vs Casting)
 
-Go doesn't have casting, but conversion. Instead of telling the compiler to map a
-set of bytes to a different representation, the bytes need to be copied to a new
-memory location for the new representation.
+Go не має кастингу, проте має приведення. Замість того, щоб просити компілятор відобразити
+набір байтів у іншому представленні, байти потрібно скопіювати в нове
+розташування пам'яті для нового представлення.
 
     aaa := int32(10)
     fmt.Printf("aaa := int32(10) %T [%v]\n", aaa, aaa)
@@ -126,22 +126,22 @@ memory location for the new representation.
     Output:
     aaa := int32(10) int32 [10]
 
-Go does have a package in the standard library called unsafe if you need to perform
-an actual casting operation. You should really avoid that and be honest with yourself
-why you are considering using it. Performing a conversion provides the highest level
-of integrity for these types of operations.
+У стандартній бібліотеці Go є пакет, який називається unsafe, якщо вам дійсно потрібно виконати
+операцію кастингу. Насправді, слід його уникати і бути чесними із собою
+щодо того, навіщо ви збираєтеся його використовувати. Виконання приведення типів забезпечує найвищий рівень
+цілісності для цих типів операцій.
 
-** Notes
+** Примітки
 
-- The purpose of all programs and all parts of those programs is to transform data from one form to the other.
-- Code primarily allocates, reads and writes to memory.
-- Understanding type is crucial to writing good code and understanding code.
-- If you don't understand the data, you don't understand the problem.
-- You understand the problem better by understanding the data.
-- When variables are being declared to their zero value, use the keyword var.
-- When variables are being declared and initialized, use the short variable declaration operator.
+- Метою всіх програм і всіх частин цих програм є перетворення даних з однієї форми в іншу.
+- Код переважно виділяє, читає та пише в пам’ять.
+- Розуміння типу є вирішальним для написання гарного коду та розуміння коду.
+- Якщо ви не розумієте даних, ви не розумієте проблеми.
+- Ви краще розумієте проблему, розуміючи дані.
+- Коли змінні оголошуються з нульовим значенням, використовуйте ключове слово var.
+- Коли змінні оголошуються та ініціалізуються, використовуйте короткий оператор оголошення змінних.
 
-** Extra Reading
+** Додаткові матеріали
 
 - [[http://golang.org/ref/spec#Boolean_types][Built-In Types]]    
 - [[https://golang.org/doc/effective_go.html#variables][Variables]]    
@@ -149,18 +149,18 @@ of integrity for these types of operations.
 - [[https://www.youtube.com/watch?v=sFUSP8Au_PE][What's in a name]]    
 - [[http://arcanesentiment.blogspot.com/2015/01/a-brief-history-of-type.html][A brief history of “type”]] - Arcane Sentiment    
 
-* Exercises
+* Вправи
 
-Use the template as a starting point to complete the exercises. A possible solution is provided.
+Скористайтеся шаблоном як відправною точкою для виконання вправ. Можливе рішення надається.
 
-** Exercise 1
+** Вправа 1
 
-*Part* *A:* Declare three variables that are initialized to their zero value and
-three declared with a literal value. Declare variables of type string, int and bool.
-Display the values of those variables.
+*Частина* *A:* Оголосіть три змінні, які ініціалізуються нульовим значенням і
+три з літеральним значенням. Оголосіть змінні типу string, int і bool.
+Відобразіть значення цих змінних.
 
-*Part* *B:* Declare a new variable of type float32 and initialize the variable by
-converting the literal value of Pi (3.14).
+*Частина* *B:* Оголосіть нову змінну типу float32 та ініціалізуйте її за допомогою
+перетворення літерального значення Пі (3.14).
 
 .play variables/exercise1.go
 .play variables/answer1.go
