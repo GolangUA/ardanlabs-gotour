@@ -1,52 +1,52 @@
-Interface Pollution
-Interface pollution comes from the fact that people are designing software with interfaces instead of discovering them.
+Забруднення Інтерфейсами (Interface Pollution)
+Забруднення Інтерфейсами випливає з факту того, що люди створюють дизайн додатків за допомогою інтерфейсів замість того щоб відкривати його природно.
 
-* Interface Pollution
+* Забруднення Інтерфейсами
 
-- [[https://www.ardanlabs.com/training/individual-on-demand/ultimate-go-bundle/][Watch The Video]]
-- Need Financial Assistance, Use Our [[https://www.ardanlabs.com/scholarship/][Scholarship Form]]
+- [[https://www.ardanlabs.com/training/individual-on-demand/ultimate-go-bundle/][Дивитись відео]]
+- Якщо потрібна фінансова допомога, то використовуйте [[https://www.ardanlabs.com/scholarship/][форму для отримання стипендії]]
 
-Interface pollution comes from the fact that people are designing software with
-interfaces instead of discovering them.
+Забруднення Інтерфейсами випливає з факту того, що люди створюють дизайн програмного забезпечення за допомогою інтерфейсів
+замість того, щоб відкривати його природно.
 
-** Code Review
+** Перегляд коду
 
-- *Example* *1:* Create Interface Pollution
-- *Example* *2:* Remove Interface Pollution
+- *Example* *1:* Створіть Забруднення Інтерфейсів
+- *Example* *2:* Приберіть Забруднення Інтерфейсів
 
 .play composition/pollution/example1.go
 .play composition/pollution/example2.go
 
-** Interface Pollution
+** Забруднення Інтерфейсами
 
-Interface pollution comes from the fact that people are designing software with
-interfaces instead of discovering them. You should design a concrete solution to the
-problem first. Then you can discover where the program needs to be polymorphic, if
-at all.
+Забруднення Інтерфейсами випливає з факту того, що люди створюють дизайн програмного забезпечення за допомогою інтерфейсів
+замість того, щоб відкривати його природно. Спочатку ви повинні створити
+конкретне рішення для проблеми. Потім ви можете зрозуміти де саме програма має буде поліморфною,
+або чи має вона такою бути взагалі.
 
-These are things I’ve heard from other developers.
+Ось які речі я чув від інших розробників.
 
-"I’m using interfaces because we have to use interfaces".
+"Я використовую інтерфейси тому що ми маємо використовувати інтерфейси".
 
-No. We don't have to use interfaces. We use interfaces when it’s practical and
-reasonable to do so. There is a cost of using interfaces: a level of indirection
-and allocation when we store concrete values inside of them. Unless the cost of
-the allocation is worth what I’m gaining by decoupling, you shouldn't be using interfaces.
+Ні. Ми не маємо використовувати інтерфейси. Ми використовуємо інтерфейси тоді, коли в цьому є практичний зміст,
+або коли це резонно. У використанні інтерфейсів є своя ціна: певний рівень опосередкованості
+та додаткове виділення памʼяті, коли ми зберігаємо значення всередині. Якщо ціна додаткового виділення памʼяті
+не переважає того, що ми отримуємо цим опосередкуванням, то використання інтерфейсів треба уникати.
 
-"I need to be able to test my code so I need to use interfaces".
+"Я маю тестувати свій код, тому мені треба використовувати інтерфейси".
 
-No. you must design my API for the user first, not my test. If the API is not testable,
-You should question if it’s usable. There are different layers of API’s as well. The
-lower level unexported API’s can and should focus on testability. The higher level
-exported API’s need to focus on usability.
+Ні. Ви маєте створювати свій API в першу чергу для користувача, а не для тестів. Якщо API неможливо відтестувати,
+вам треба задатися питанням, чи їм можна користуватися. Також є різні рівні API.
+Низькорівневі, не експортовані назовні API, можуть і мають фокусуватися на зручності тестування.
+Високорівневі, експортовані назовні API, мають фокусуватися на зручності використання.
 
-Functions that accept raw data in and return raw data out are the most testable.
-Separate the data transformation from where the data comes from and where it is
-going. This is a refactoring exercise you need to perform during the engineering
-coding cycle.
+Функції, які приймають сирі дані всередину і повертають сирі дані назовні легше за все тестувати.
+Відокремлюйте процес трансформації даних від того звідки дані приходять і куди
+відправляються. Це та вправа з рефакторингу, яку вам треба робити під час інженерного
+циклу розробки.
 
-Below is an example that creates interface pollution by improperly using an
-interface when one is not needed.
+Нижче можна побачити приклад, який створює забруднення інтерфейсами, використовуючи неналежним чином інтерфейс,
+коли він не потрібен.
 
     type Server interface {
         Start() error
@@ -54,33 +54,33 @@ interface when one is not needed.
         Wait() error
     }
 
-The Server interface defines a contract for TCP servers. The problem here is I
-don’t need a contract, you need an implementation. There will only be one implementation
-as well, especially since you are the one implementing it. You do not need someone else
-to implement this for you.
+Інтерфейс Server визначає контракт для TCP серверу. Проблема тут полягає у тому, що
+вам не потрібен контракт, вам потрібна імплементація. Буде існувати лише одна імплементація,
+особливо якщо ви саме той/та хто буде її імплементувати. Вам не потрібно, щоб хтось інший
+створював вам цю імплементацію.
 
-Plus, this interface is based on a noun and not a verb. Concrete types are nouns
-since they represent the concrete problem. Interfaces describe the behavior and
-Server is not behavior.
+До того ж, цей інтерфейс заснований на іменнику а не на дієслові. Конкретні типи це іменники,
+оскільки вони відображають конкретну проблему. Інтерфейси відображають поведінку,
+а Server це не поведінка.
 
-Here are some ways to identify interface pollution:
+Ось кілька способів, щоб ідентифікувати забруднення інтерфейсами:
 
-- A package declares an interface that matches the entire API of its own concrete type.
-- The interfaces are exported but the concrete types implementing the interface are unexported.
-- The factory function for the concrete type returns the interface value with the unexported concrete type value inside.
-- The interface can be removed and nothing changes for the user of the API.
-- The interface is not decoupling the API from change.
+- Пакет оголошує інтерфейс, який співпадає із суцільним API свого конкретного типу.
+- Інтерфейси експортовані, але конкретні типи, що імплементують їх не експортовані.
+- Фабрична функція для конкретного типу повертає значення інтерфейсу з конкретним значенням всередині, яке не експортоване.
+- Інтерфейс можна видалити і нічого не зміниться для користувача API.
+- Інтерфейс не відокремлює API від змін.
 
-Guidelines around interface pollution:
+Настанови стосовно забруднення інтерфейсами:
 
-Use an interface:
+Використовуйте інтерфейси:
 
-- When users of the API need to provide an implementation detail.
-- When APIs have multiple implementations that need to be maintained.
-- When parts of the APIs that can change have been identified and require decoupling.
+- Коли користувачі API мають створювати деталі імплементації.
+- Коли API мають декілька імплементацій, які потрібно підтримувати.
+- Коли частини API які можуть змінюватися були встановлені і вимагають відокремлення.
 
-Question an interface:
+Ставте під сумнів необхідність інтерфейса:
 
-- When its only purpose is for writing testable API’s (write usable APIs first).
-- When it’s not providing support for the API to decouple from change.
-- When it's not clear how the interface makes the code better.
+- Якщо єдина його мета це написання зручного для тестування API (напишіть спочатку зручне для використання API)
+- Якщо він не надає підтримку відокремлення API від змін.
+- Якщо не зрозуміло як інтерфейс робить код кращим.
