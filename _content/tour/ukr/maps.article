@@ -1,24 +1,24 @@
-Maps
-A map is a data structure that provides support for storing and accessing data based on a key.
+Мапи (Maps)
+Мапа це структура даних, яка забезпечує підтримку зберігання та доступу до даних на основі ключа.
 
-* Maps
+* Мапи
 
-- [[https://www.ardanlabs.com/training/individual-on-demand/ultimate-go-bundle/][Watch The Video]]
-- Need Financial Assistance, Use Our [[https://www.ardanlabs.com/scholarship/][Scholarship Form]]
+- [[https://www.ardanlabs.com/training/individual-on-demand/ultimate-go-bundle/][Дивитись відео]]
+- Якщо потрібна фінансова допомога, то використовуйте [[https://www.ardanlabs.com/scholarship/][формy для отримання стипендії]]
 
-A map is a data structure that provides support for storing and accessing data
-based on a key. It uses a hash map and bucket system that maintains a contiguous
-block of memory underneath.
+Мапа це структура даних, яка забезпечує підтримку зберігання та доступу до даних
+на основі ключа. Вона використовує хеш-мапу та систему бакетів, яка під капотом підтримує
+безперервний блок пам'яті.
 
-** Code Review
+** Перегляд коду
 
-- *Example* *1:* Declare, write, read, and delete
-- *Example* *2:* Absent keys
-- *Example* *3:* Map key restrictions
-- *Example* *4:* Map literals and range
-- *Example* *5:* Sorting maps by key
-- *Example* *6:* Taking an element's address
-- *Example* *7:* Maps are Reference Types
+- *Приклад* *1:* Оголошення, запис, читання, та видалення
+- *Приклад* *2:* Відсутні ключі
+- *Приклад* *3:* Обмеження ключів мапи
+- *Приклад* *4:* Літерали та діапазон мап
+- *Приклад* *5:* Сортування мап за ключем
+- *Приклад* *6:* Отримання адреси елемента
+- *Приклад* *7:* Мапи є типом посилання
 
 .play maps/example1.go
 .play maps/example2.go
@@ -28,31 +28,31 @@ block of memory underneath.
 .play maps/example6.go
 .play maps/example7.go
 
-** Declaring And Constructing Maps
+** Оголошення і створення мап
 
-Declaring and constructing a map can be done in several ways.
+Оголосити та створити мапу можна декількома способами.
 
     type user struct {
         name     string
         username string
     }
 
-    // Construct a map set to its zero value,
-    // that can store user values based on a key of type string.
-    // Trying to use this map will result in a runtime error (panic).
+    // Створення мапи з нульовим значенням,
+    // що може зберігати значення користувачів із ключем рядкового типу.
+    // Спроба використати цю мапу призведе до помилки виконання (паніки).
     var users map[string]user
 
-    // Construct a map initialized using make,
-    // that can store user values based on a key of type string.
+    // Створення мапи за допомогою функції make,
+    // що може зберігати значення користувачів із ключем рядкового типу.
     users := make(map[string]user)
 
-    // Construct a map initialized using empty literal construction,
-    // that can store user values based on a key of type string.
+    // Створення мапи за допомогою пустої літеральної конструкції,
+    // що може зберігати значення користувачів із ключем рядкового типу.
     users := map[string]user{}
 
-A map set to its zero value is not usable and will result in your program panicking.
-The use of the built-in function make and literal construction constructs a map
-ready for use.
+Мапа, ініціалізована нульовим значенням, не придатна для використання і призведе до паніки в програмі.
+Використання вбудованої функції make або літеральної конструкції створює мапу,
+готову до використання.
 
     func main() {
         users := make(map[string]user)
@@ -67,17 +67,17 @@ ready for use.
         }
     }
 
-Output:
+Вивід:
 
     Roy {Rob Roy}
     Ford {Henry Ford}
     Mouse {Mickey Mouse}
     Jackson {Michael Jackson}
 
-If the built-in function make is used to construct a map, then the assignment operator
-can be used to add and update values in the map. The order of how keys/values are
-returned when ranging over a map is undefined by the spec and up to the compiler to
-implement. 
+Якщо вбудована функція make використовується для створення мапи, тоді оператор присвоєння
+можна використовувати для додавання та оновлення значень у мапі. Порядок, у якому ключі/значення
+повертаються при ітерації по мапі, не визначений специфікацією і залежить від реалізації
+компілятора.
 
     func main() {
         users := map[string]user{
@@ -92,21 +92,21 @@ implement.
         }
     }
 
-Output:
+Вивід:
 
     Ford {Henry Ford}
     Jackson {Michael Jackson}
     Roy {Rob Roy}
     Mouse {Mickey Mouse}
 
-In this case, the output was returned in a different order from how they are
-listed in the construction. The current algorithm for 1.16 will return the results
-in a random order once the number of values reaches a certain limit. Once again,
-this is a compiler implementation that is allowed to change. You can’t depend on it.
+У цьому випадку вивід був повернений у порядку, відмінному від того, як вони
+вказані при створенні. Поточний алгоритм для версії 1.16 поверне результати
+в випадковому порядку, як тільки кількість значень досягне певного ліміту. Це знову ж таки
+реалізація компілятора, яка може змінюватися. Ви це не можна покладатися.
 
-** Lookups and Deleting Map Keys
+** Пошук і видалення ключів мапи
 
-Once data is stored inside of a map, to extract any data a key lookup is required.
+Як тільки дані збережені в мапі, для вилучення будь-яких даних необхідний пошук за ключем.
 
     user1, exists1 := users["Bill"]
     user2, exists2 := users["Ford"]
@@ -114,66 +114,66 @@ Once data is stored inside of a map, to extract any data a key lookup is require
     fmt.Println("Bill:", exists1, user1)
     fmt.Println("Ford:", exists2, user2)
 
-Output:
+Вивід:
 
     Bill: false { }
     Ford: true {Henry Ford}
 
-To perform a key lookup, square brackets are used with the map variable. Two
-values can be returned from a map lookup, the value and a boolean that represents
-if the value was found or not. If you don’t need to know this, you can leave the
-"exists" variable out.
+Для виконання пошуку за ключем використовуються квадратні дужки з змінною мапи. З
+пошуку в мапі можуть бути повернені два значення: значення та булеве значення, яке вказує,
+чи було знайдено значення. Якщо вам не потрібно знати це, ви можете не використовувати
+змінну exists.
 
-When a key is not found in the map, the operation returns a value of the map type
-set to its zero value state. You can see this with the "Bill" key lookup. Don’t use
-zero value to determine if a key exists in the map or not since zero value may be
-valid and what was actually stored for the key.
+Коли ключ в мапі не знайдено, операція повертає значення типу мапи,
+встановлене в його нульовий стан. Ви можете побачити це при пошуку ключа "Bill". Не використовуйте
+нульове значення для визначення, чи існує ключ у мапі, оскільки нульове значення може бути
+дійсним і тим, що було фактично збережено для ключа.
 
     delete(users, "Roy")
 
-There is a built-in function named delete that allows for the deletion of data
-from the map based on a key.
+Існує вбудована функція під назвою delete, яка дозволяє видаляти дані
+з мапи на основі ключа.
 
-** Key Map Restrictions
+** Обмеження ключів мапи
 
-Not all types can be used as a key.
+Не всі типи можуть бути використані як ключ.
 
     type slice []user
     Users := make(map[slice]user)
 
-Compiler Error:
+Помилка компілятора:
 
     invalid map key type users
 
-A slice is a good example of a type that can’t be used as a key. Only values that
-can be run through the hash function are eligible. A good way to recognize types
-that can be a key is if the type can be used in a comparison operation. You can’t
-compare two slice values.
+Зріз є хорошим прикладом типу, який не можна використати як тип. Тільки значення що
+можна пропустити через функцію хешування є прийнятними. Простий спосіб розпізнати типи
+що можуть бути ключем, якщо тип можна використати в операції порівняння. Ви не можете
+порівняти два значення зрізів.
 
-** Notes
+** Примітки
 
-- Maps provide a way to store and retrieve key/value pairs.
-- Reading an absent key returns the zero value for the map's value type.
-- Iterating over a map is always random.
-- The map key must be a value that is comparable.
-- Elements in a map are not addressable.
-- Maps are a reference type.
+- Мапи забезпечують спосіб зберігання та отримання пар ключ/значення.
+- Читання відсутнього ключа повертає нульове значення для типу значення мапи.
+- Ітерація по мапі завжди випадкова.
+- Ключ мапи має мати значення, що можна порівняти.
+- Елементи у мапі не адресуються.
+- Мапи є типом посилання.
 
-** Links
+** Додаткові матеріали
 
 - [[https://blog.golang.org/go-maps-in-action][Go maps in action]] - Andrew Gerrand    
 - [[https://www.ardanlabs.com/blog/2013/12/macro-view-of-map-internals-in-go.html][Macro View of Map Internals In Go]] - William Kennedy    
 - [[https://www.youtube.com/watch?v=Tl7mi9QmLns][Inside the Map Implementation]] - Keith Randall    
 - [[https://dave.cheney.net/2018/05/29/how-the-go-runtime-implements-maps-efficiently-without-generics][How the Go runtime implements maps efficiently (without generics)]] - Dave Cheney     
 
-* Exercises
+* Вправи
 
-Use the template as a starting point to complete the exercises. A possible solution is provided.
+Скористайтеся шаблоном як відправною точкою для виконання вправ. Можливе рішення надається.
 
-** Exercise 1
+** Вправа 1
 
-Declare and make a map of integer values with a string as the key. Populate the
-map with five values and iterate over the map to display the key/value pairs.
+Оголосіть і створіть мапу цілих значень із рядком як ключем. Заповніть мапу
+п'ятьма значеннями та переберіть мапу, щоб відобразити пари ключ/значення.
 
 .play maps/exercise1.go
 .play maps/answer1.go
